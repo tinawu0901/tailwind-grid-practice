@@ -1,0 +1,19 @@
+/* @import './base.css';
+@import './tailwind.css'; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer tailwind-base, tailwind-utilities;
+
+
+/* Define YoungSerif-Regular font */
+@font-face {
+    font-family: "YoungSerif-Regular";
+    src: url("./assets/font/YoungSerif-Regular.ttf");
+}
+
+/* Define Outfit variable font */
+@font-face {
+    font-family: "Outfit";
+    src: url("./assets/font/Outfit-VariableFont_wght.ttf") format("woff2");
+}
