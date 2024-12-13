@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const { addIconSelectors } = require('@iconify/tailwind');
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
@@ -9,6 +10,6 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [ addIconSelectors(['mdi', 'mdi-light']),],
 }
 

@@ -5,7 +5,7 @@ import './assets/main.css'
  
 import App from './App.vue'
 import router from './router'
-
+import { Icon } from '@iconify/vue';
 const app = createApp(App)
 app.use({
     version: '2.0.0',
@@ -24,5 +24,5 @@ app.use({
   })
 app.use(createPinia())
 app.use(router)
-
+app.component('Icon', Icon); // 註冊全域 Icon 組件
 app.mount('#app')

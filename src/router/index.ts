@@ -16,7 +16,7 @@ const router = createRouter({
         path: '/recipe-page-main',
         name: "recipe-page-main",
         component: RecipePageMain,
-        meta: { difficulty: "newbie" ,  completed: false},
+        meta: { difficulty: "newbie" ,  completed: true},
       },
 
       
