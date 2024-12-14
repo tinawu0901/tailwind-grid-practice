@@ -1,7 +1,11 @@
 <template>
   <div class="w-full h-full px-8">
     <div class="w-full h-1/4">
-      <img alt="Vue logo" class="w-full" src="@/assets/image-omelette.jpeg" />
+      <img
+        alt="Vue logo"
+        class="w-full"
+        src="@/assets/images/recipe-page-main/image-omelette.jpeg"
+      />
     </div>
     <section class="text-wrap mt-6 w-full">
       <h1 class="font-bold text-4xl mb-6 font-youngserif">
