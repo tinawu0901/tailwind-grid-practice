@@ -23,7 +23,7 @@ const router = createRouter({
         path: '/interactive-rating-component-main',
         name: "interactive-rating-component-main",
         component: InteractiveRatingComponentMain,
-        meta: { difficulty: "newbie" ,  completed: false},
+        meta: { difficulty: "newbie" ,  completed: true},
       },
 
     ]

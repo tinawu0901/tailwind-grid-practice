@@ -1,10 +1,9 @@
 <template>
-  <div class="w-full bg-gray-900 h-dvh" style="border: 1px red solid">
-    <div class="bg-slate-800 absolute inset-0 m-auto w-2/6 h-3/5 rounded-3xl">
-      <div
-        style="border: 1px red solid"
-        class="absolute inset-0 m-auto w-4/5 mt-12"
-      >
+  <div class="w-full bg-gray-900 h-dvh">
+    <div
+      class="bg-slate-800 absolute inset-0 m-auto w-2/6 h-3/5 rounded-3xl min-w-96"
+    >
+      <div class="absolute inset-0 m-auto w-4/5 mt-12" v-show="!isSubmit">
         <div class="h-1/5 w-full">
           <svg width="17" height="16" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -13,18 +12,15 @@
             />
           </svg>
         </div>
-        <div style="border: 1px red solid" class="h-2/6 w-full text-left">
+        <div class="h-2/6 w-full text-left">
           <h1 class="font-bold text-3xl mb-3 text-gray-50">How did we do?</h1>
           <p class="text-lg text-justify text-slate-400">
             Please let us know how we did with your support request. All
             feedback is appreciated to help us improve our offering!
           </p>
         </div>
-        <div
-          style="border: 1px red solid"
-          class="h-1/6 w-full text-left text-slate-400"
-        >
-          <div class="flex justify-between items-center h-full">
+        <div class="h-1/6 w-full text-left text-slate-400">
+          <div class="flex justify-between items-center h-full mt-3">
             <div
               class="bg-slate-600 items-center justify-center rounded-full w-16 h-16 flex hover:bg-slate-400 hover:text-black font-bold cursor-pointer"
               :class="[
@@ -38,13 +34,32 @@
               {{ item }}
             </div>
           </div>
-          {{ scoreRange }}
           <button
-            class="rounded-full bg-white text-black h-3/5 w-full mt-6 font-bold text-xl"
-            @click="submit"
+            class="rounded-full bg-amber-500 hover:bg-white text-black h-3/5 w-full mt-6 font-bold text-xl"
+            @click="submit()"
           >
             S U B M I T
           </button>
+        </div>
+      </div>
+      <div class="absolute inset-0 m-auto w-4/5 mt-12" v-show="isSubmit">
+        <div class="flex justify-center items-center mt-12">
+          <img
+            alt="Vue logo"
+            src="@/assets/images/interactive-rating-component-main/illustration-thank-you.svg"
+          />
+        </div>
+        <div class="text-orange-500 text-lg my-6 text-center">
+          You selected
+          {{ scoreRange[0] }}
+          out of {{ scoreRange[1] }}
+        </div>
+        <div class="text-center">
+          <h1 class="font-bold text-3xl mb-3 text-gray-50">Thank you!</h1>
+          <p class="text-lg text-center text-slate-400">
+            We appreciate you taking the time to give a rating. If you ever need
+            more support, don’t hesitate to get in touch!
+          </p>
         </div>
       </div>
     </div>
@@ -54,6 +69,7 @@
 import { ref } from "vue";
 
 const scoreRange = ref<number[]>([]);
+const isSubmit = ref(false);
 function grade(score: number): void {
   const scoreIndex = scoreRange.value.indexOf(score);
   if (scoreIndex !== -1) {
@@ -74,7 +90,7 @@ function grade(score: number): void {
   }
 }
 function submit() {
-  alert(scoreRange.value);
+  isSubmit.value = true;
 }
 </script>
 <style></style>
