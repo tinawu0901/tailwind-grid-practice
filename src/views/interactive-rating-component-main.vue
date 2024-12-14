@@ -22,14 +22,11 @@
         <div class="h-1/6 w-full text-left text-slate-400">
           <div class="flex justify-between items-center h-full mt-3">
             <div
-              class="bg-slate-600 items-center justify-center rounded-full w-16 h-16 flex hover:bg-slate-400 hover:text-black font-bold cursor-pointer"
-              :class="[
-                item == scoreRange[0] ? 'bg-white' : '',
-                item == scoreRange[1] ? 'bg-amber-500' : '',
-              ]"
+              class="bg-slate-600 items-center justify-center text-2xl rounded-full w-16 h-16 flex hover:bg-amber-500 hover:text-black font-bold cursor-pointer"
               v-for="(item, index) in 5"
               :key="index"
-              @click="grade(item)"
+              @click="setRating(item)"
+              :class="[item === selectedRating ? 'bg-white text-black' : '']"
             >
               {{ item }}
             </div>
@@ -51,8 +48,8 @@
         </div>
         <div class="text-orange-500 text-lg my-6 text-center">
           You selected
-          {{ scoreRange[0] }}
-          out of {{ scoreRange[1] }}
+          {{ selectedRating }}
+          out of 5
         </div>
         <div class="text-center">
           <h1 class="font-bold text-3xl mb-3 text-gray-50">Thank you!</h1>
@@ -68,26 +65,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const scoreRange = ref<number[]>([]);
+const selectedRating = ref<number | null>(null); // 當前選擇的分數
 const isSubmit = ref(false);
-function grade(score: number): void {
-  const scoreIndex = scoreRange.value.indexOf(score);
-  if (scoreIndex !== -1) {
-    scoreRange.value.splice(scoreIndex, 1);
-    return;
-  }
-  if (scoreRange.value.length < 2) {
-    scoreRange.value.push(score);
-    scoreRange.value.sort((a, b) => a - b);
-  } else {
-    scoreRange.value.sort((a, b) => a - b);
-
-    if (score > scoreRange.value[1]) {
-      scoreRange.value[1] = score;
-    } else if (score < scoreRange.value[1]) {
-      scoreRange.value[0] = score; // 替换最小值
-    }
-  }
+function setRating(score: number): void {
+  selectedRating.value = score;
 }
 function submit() {
   isSubmit.value = true;
