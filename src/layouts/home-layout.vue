@@ -29,6 +29,8 @@
           <th class="border border-gray-300 px-4 py-2">名稱</th>
           <th class="border border-gray-300 px-4 py-2">程度</th>
           <th class="border border-gray-300 px-4 py-2">是否完成</th>
+          <th class="border border-gray-300 px-4 py-2">設計草圖</th>
+          <th class="border border-gray-300 px-4 py-2">最終成果</th>
         </tr>
       </thead>
       <tbody>
@@ -57,10 +59,24 @@
                   ? 'basil:check-outline'
                   : 'basil:cross-outline'
               "
-              width="48"
+              width="48 "
               height="48"
               class="inline-block ml-2"
               :color="item.meta.completed ? 'green' : 'red'"
+            />
+          </td>
+          <td class="border border-gray-300 px-4 py-2">
+            <img
+              :src="`src/assets/design/${item.name}/desktop-design.jpg`"
+              alt="設計草圖"
+              class="w-20 h-25"
+            />
+          </td>
+          <td class="border border-gray-300 px-4 py-2">
+            <img
+              :src="`src/assets/final-product/${item.name}.jpeg`"
+              alt="完成圖"
+              class="w-20 h-25"
             />
           </td>
         </tr>
