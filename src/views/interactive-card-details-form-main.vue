@@ -35,108 +35,130 @@
     </div>
 
     <div class="w-2/3 h-full bg-white flex items-center justify-center">
-      <div class="w-2/5 h-1/2">
-        <form class="w-full h-full">
-          <label class="block w-full h-1/4">
-            <span class="uppercase block text-sm font-bold text-black my-2">
-              Cardholder Name
-            </span>
-            <input
-              v-model="name"
-              type="text"
-              name="text"
-              class="bg-white border border-slate-300 placeholder-slate-400 block w-full h-1/2 rounded-md"
-              placeholder="e.g. Jane Appleseed"
-            />
-          </label>
+      <div class="w-2/5 h-1/2" v-show="!isSubmit">
+        <!-- <form class="w-full h-full"> -->
+        <label class="block w-full h-1/4">
+          <span class="uppercase block text-sm font-bold text-black my-2">
+            Cardholder Name
+          </span>
+          <input
+            v-model="name"
+            type="text"
+            name="text"
+            class="bg-white border border-slate-300 placeholder-slate-400 block w-full h-1/2 rounded-md"
+            placeholder="e.g. Jane Appleseed"
+          />
+        </label>
 
-          <label class="block w-full h-1/4">
-            <span class="uppercase block font-bold text-black text-sm my-2">
-              Card Number
-            </span>
-            <input
-              v-model="cardNumber"
-              type="text"
-              name="text"
-              class="bg-white border placeholder-slate-400 block w-full h-1/2 rounded-md"
-              placeholder="e.g. 1234 5678 9123 0000"
-              @input="formatCardNumber"
-              :class="
-                isInvalidCardNumber ? 'border-pink-600' : 'border-slate-300'
-              "
-            />
-            <p v-if="isInvalidCardNumber" class="mt-1 text-pink-600 text-xs">
-              Wrong format, numbers only
-            </p>
-          </label>
+        <label class="block w-full h-1/4">
+          <span class="uppercase block font-bold text-black text-sm my-2">
+            Card Number
+          </span>
+          <input
+            v-model="cardNumber"
+            type="text"
+            name="text"
+            class="bg-white border placeholder-slate-400 block w-full h-1/2 rounded-md"
+            placeholder="e.g. 1234 5678 9123 0000"
+            @input="formatCardNumber"
+            :class="
+              isInvalidCardNumber ? 'border-pink-600' : 'border-slate-300'
+            "
+          />
+          <p v-if="isInvalidCardNumber" class="mt-1 text-pink-600 text-xs">
+            Wrong format, numbers only
+          </p>
+        </label>
 
-          <div class="flex justify-between w-full h-1/4 mt-4">
-            <label class="block w-1/2 h-full">
-              <span class="uppercase block text-sm font-bold text-black">
-                Exp. Date (MM/YY)
-              </span>
-              <div class="flex justify-between h-1/2 mt-1">
-                <input
-                  type="text"
-                  name="text"
-                  class="bg-white border border-slate-300 placeholder-slate-400 block w-2/5 h-full rounded-md"
-                  placeholder="MM"
-                  v-model="expiryMonth"
-                  :class="
-                    isInvalidMonth ? 'border-pink-600' : 'border-slate-300'
-                  "
-                />
-                <input
-                  type="text"
-                  name="text"
-                  class="bg-white border border-slate-300 placeholder-slate-400 block w-2/5 h-full rounded-md"
-                  placeholder="YY"
-                  v-model="expiryYear"
-                  :class="
-                    isInvalidYear ? 'border-pink-600' : 'border-slate-300'
-                  "
-                />
-              </div>
-              <div class="flex justify-between h-1/2 mt-1">
-                <p class="text-pink-600 text-xs" v-if="isInvalidMonth">
-                  Can't be blank
-                </p>
-                <p class="text-pink-600 text-xs" v-if="isInvalidYear">
-                  Can't be blank
-                </p>
-              </div>
-            </label>
-            <label class="block w-1/2 h-full ml-2">
-              <span class="uppercase block text-sm font-bold text-black">
-                CVC
-              </span>
+        <div class="flex justify-between w-full h-1/4 mt-4">
+          <label class="block w-1/2 h-full">
+            <span class="uppercase block text-sm font-bold text-black">
+              Exp. Date (MM/YY)
+            </span>
+            <div class="flex justify-between h-1/2 mt-1">
               <input
-                v-model="cardVerificationCode"
                 type="text"
                 name="text"
-                class="bg-white border border-slate-300 placeholder-slate-400 block w-full h-1/2 rounded-md mt-1"
-                placeholder="e.g. 123"
-                :class="isInvalidCVC ? 'border-pink-600' : 'border-slate-300'"
+                class="bg-white border border-slate-300 placeholder-slate-400 block w-2/5 h-full rounded-md"
+                placeholder="MM"
+                v-model="expiryMonth"
+                :class="isInvalidMonth ? 'border-pink-600' : 'border-slate-300'"
               />
-              <p v-if="isInvalidCVC" class="mt-1 text-pink-600 text-xs">
+              <input
+                type="text"
+                name="text"
+                class="bg-white border border-slate-300 placeholder-slate-400 block w-2/5 h-full rounded-md"
+                placeholder="YY"
+                v-model="expiryYear"
+                :class="isInvalidYear ? 'border-pink-600' : 'border-slate-300'"
+              />
+            </div>
+            <div class="flex justify-between h-1/2 mt-1">
+              <p class="text-pink-600 text-xs" v-if="isInvalidMonth">
                 Can't be blank
               </p>
-            </label>
-          </div>
+              <p class="text-pink-600 text-xs" v-if="isInvalidYear">
+                Can't be blank
+              </p>
+            </div>
+          </label>
+          <label class="block w-1/2 h-full ml-2">
+            <span class="uppercase block text-sm font-bold text-black">
+              CVC
+            </span>
+            <input
+              v-model="cardVerificationCode"
+              type="text"
+              name="text"
+              class="bg-white border border-slate-300 placeholder-slate-400 block w-full h-1/2 rounded-md mt-1"
+              placeholder="e.g. 123"
+              :class="isInvalidCVC ? 'border-pink-600' : 'border-slate-300'"
+            />
+            <p v-if="isInvalidCVC" class="mt-1 text-pink-600 text-xs">
+              Can't be blank
+            </p>
+          </label>
+        </div>
 
-          <button
-            class="rounded bg-black text-white h-1/5 w-full mt-2 font-bold text-xl"
-            @click="handleSubmit()"
-          >
-            Confirm
-          </button>
-        </form>
+        <button
+          class="rounded bg-black text-white h-1/5 w-full mt-2 font-bold text-xl"
+          @click="handleSubmit()"
+        >
+          Confirm
+        </button>
+        <!-- </form> -->
+      </div>
+      <div class="w-2/5 h-1/2" v-show="isSubmit">
+        <div class="w-full h-2/5 flex items-center justify-center">
+          <div class="bg-indigo-600 rounded-full w-12 h-12">
+            <Icon
+              icon="basil:check-outline"
+              width="48 "
+              height="48"
+              color="white"
+            />
+          </div>
+        </div>
+        <div class="w-full h-1/5 font-bold text-3xl text-center my-1 uppercase">
+          Thank you!
+        </div>
+        <div class="text-sm w-full h-1/5 text-center">
+          We've added your card details
+        </div>
+        <button
+          class="rounded bg-black text-white h-1/5 w-full mt-2 font-bold text-xl"
+        >
+          Continue
+        </button>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { ref, watch } from "vue";
+
+const isSubmit = ref(false);
+
 // 卡號、到期日、CVC等資料
 const name = ref<string>("");
 const cardNumber = ref<string>("");
@@ -157,7 +179,7 @@ const formatCardNumber = () => {
   // 更新卡號值
   cardNumber.value = formatted;
 
-  isInvalidCardNumber.value = /\D/.test(cardNumber.value.replace(/\s/g, ""));
+  // isInvalidCardNumber.value = /\D/.test(cardNumber.value.replace(/\s/g, ""));
 };
 
 // 單獨驗證卡號
@@ -218,7 +240,7 @@ const validateAll = () => {
 };
 
 // 提交表單處理
-const handleSubmit = () => {
+const handleSubmit = (event) => {
   // 在提交時，強制驗證所有欄位
   validateAll();
 
@@ -229,9 +251,9 @@ const handleSubmit = () => {
     !isInvalidYear.value &&
     !isInvalidCVC.value
   ) {
-    alert("Form Submitted Successfully!");
+    isSubmit.value = true;
   } else {
-    alert("Please fill out the form correctly.");
+    event.preventDefault(); // 阻止表單提交刷新
   }
 };
 </script>
