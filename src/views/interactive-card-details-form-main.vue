@@ -1,9 +1,8 @@
 <template>
-  <div class="w-full h-dvh flex" style="border: 1px solid red">
+  <div class="w-full h-dvh flex">
     <div
       class="w-1/3 h-full relative bg-no-repeat bg-[url('@/assets/images/interactive-card-details-form-main/bg-main-desktop.png')]"
     >
-      <!-- Front Card -->
       <div
         class="absolute top-40 left-52 w-4/5 h-1/4 rounded-xl bg-no-repeat bg-cover bg-[url('@/assets/images/interactive-card-details-form-main/bg-card-front.png')]"
       >
@@ -16,7 +15,7 @@
         <div
           class="w-4/5 h-1/5 ml-6 absolute bottom-12 text-white font-bold text-2xl"
         >
-          1111 2222 3333 4444
+          {{ cardNumber }}
         </div>
         <div
           class="w-4/5 h-1/5 text-white absolute bottom-4 text-lg flex justify-between ml-6 items-center"
@@ -36,10 +35,10 @@
     </div>
 
     <div class="w-2/3 h-full bg-white flex items-center justify-center">
-      <div class="w-2/5 h-1/2" style="border: 1px green solid">
+      <div class="w-2/5 h-1/2">
         <form class="w-full h-full">
-          <label class="block w-full h-1/4" style="border: 1px red solid">
-            <span class="uppercase block text-lg font-bold text-black my-3">
+          <label class="block w-full h-1/4">
+            <span class="uppercase block text-sm font-bold text-black my-2">
               Cardholder Name
             </span>
             <input
@@ -51,39 +50,41 @@
             />
           </label>
 
-          <label class="block w-full h-1/4" style="border: 1px red solid">
-            <span class="uppercase block text-lg font-bold text-black my-3">
+          <label class="block w-full h-1/4">
+            <span class="uppercase block font-bold text-black text-sm my-2">
               Card Number
             </span>
             <input
               v-model="cardNumber"
               type="text"
               name="text"
-              class="bg-white border border-slate-300 placeholder-slate-400 block w-full h-1/2 rounded-md"
+              class="bg-white border placeholder-slate-400 block w-full h-1/2 rounded-md"
               placeholder="e.g. 1234 5678 9123 0000"
               @input="formatCardNumber"
-              :class="{ 'border-pink-600': isInvalid }"
+              :class="
+                isInvalidCardNumber ? 'border-pink-600' : 'border-slate-300'
+              "
             />
-            <p v-if="isInvalid" class="mt-2 text-pink-600 text-sm">
+            <p v-if="isInvalidCardNumber" class="mt-1 text-pink-600 text-xs">
               Wrong format, numbers only
             </p>
           </label>
 
-          <div
-            class="flex justify-between w-full h-1/4 my-3"
-            style="border: 3px teal solid"
-          >
-            <label class="block w-1/2 h-full" style="border: 1px red solid">
-              <span class="uppercase block text-lg font-bold text-black">
+          <div class="flex justify-between w-full h-1/4 mt-4">
+            <label class="block w-1/2 h-full">
+              <span class="uppercase block text-sm font-bold text-black">
                 Exp. Date (MM/YY)
               </span>
-              <div class="flex justify-between h-1/2">
+              <div class="flex justify-between h-1/2 mt-1">
                 <input
                   type="text"
                   name="text"
                   class="bg-white border border-slate-300 placeholder-slate-400 block w-2/5 h-full rounded-md"
                   placeholder="MM"
                   v-model="expiryMonth"
+                  :class="
+                    isInvalidMonth ? 'border-pink-600' : 'border-slate-300'
+                  "
                 />
                 <input
                   type="text"
@@ -91,24 +92,41 @@
                   class="bg-white border border-slate-300 placeholder-slate-400 block w-2/5 h-full rounded-md"
                   placeholder="YY"
                   v-model="expiryYear"
+                  :class="
+                    isInvalidYear ? 'border-pink-600' : 'border-slate-300'
+                  "
                 />
               </div>
+              <div class="flex justify-between h-1/2 mt-1">
+                <p class="text-pink-600 text-xs" v-if="isInvalidMonth">
+                  Can't be blank
+                </p>
+                <p class="text-pink-600 text-xs" v-if="isInvalidYear">
+                  Can't be blank
+                </p>
+              </div>
             </label>
-            <label class="block w-1/2 h-full" style="border: 1px red solid">
-              <span class="uppercase block text-lg font-bold text-black">
+            <label class="block w-1/2 h-full ml-2">
+              <span class="uppercase block text-sm font-bold text-black">
                 CVC
               </span>
               <input
                 v-model="cardVerificationCode"
                 type="text"
                 name="text"
-                class="bg-white border border-slate-300 placeholder-slate-400 block w-full h-1/2 rounded-md"
+                class="bg-white border border-slate-300 placeholder-slate-400 block w-full h-1/2 rounded-md mt-1"
                 placeholder="e.g. 123"
+                :class="isInvalidCVC ? 'border-pink-600' : 'border-slate-300'"
               />
+              <p v-if="isInvalidCVC" class="mt-1 text-pink-600 text-xs">
+                Can't be blank
+              </p>
             </label>
           </div>
+
           <button
             class="rounded bg-black text-white h-1/5 w-full mt-2 font-bold text-xl"
+            @click="handleSubmit()"
           >
             Confirm
           </button>
@@ -118,24 +136,103 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-const name = ref<string>(""); // 卡號
-const cardNumber = ref<string>(""); // 卡號
-const cardVerificationCode = ref<string>("000"); // 卡片驗證碼
-const expiryMonth = ref<string>(""); // 過期月份
-const expiryYear = ref<string>(""); // 過期年份
+import { ref, watch } from "vue";
+// 卡號、到期日、CVC等資料
+const name = ref<string>("");
+const cardNumber = ref<string>("");
+const expiryMonth = ref<string>("");
+const expiryYear = ref<string>("");
+const cardVerificationCode = ref<string>("");
 
-const isInvalid = ref<boolean>(false);
+// 驗證狀態
+
+const isInvalidCardNumber = ref(false);
+const isInvalidMonth = ref(false);
+const isInvalidYear = ref(false);
+const isInvalidCVC = ref(false);
 
 const formatCardNumber = () => {
-  // // 去除非數字和空格字符，僅保留數字和空格
-  // let cleaned = cardNumber.value.replace(/[^\d\s]/g, "");
-  // // 每四個數字後插入空格
-  // let formatted = cleaned.replace(/(\d{4})(?=\d)/g, "$1 ");
-  // // 更新卡號值
-  // cardNumber.value = formatted;
-  // // 檢查格式是否正確，這裡假設卡號應該是數字並以空格分隔
-  // isInvalid.value = !/^\d{4}(\s?\d{4}){3}$/.test(cardNumber.value);
+  // 每四個數字後插入空格
+  let formatted = cardNumber.value.replace(/(\d{4})(?=\d)/g, "$1 ");
+  // 更新卡號值
+  cardNumber.value = formatted;
+
+  isInvalidCardNumber.value = /\D/.test(cardNumber.value.replace(/\s/g, ""));
+};
+
+// 單獨驗證卡號
+const validateCardNumber = () => {
+  isInvalidCardNumber.value = !/^\d{4}(\s?\d{4}){3}$/.test(cardNumber.value);
+};
+
+// 單獨驗證月份
+const validateMonth = () => {
+  isInvalidMonth.value =
+    expiryMonth.value === "" || !/^(0[1-9]|1[0-2])$/.test(expiryMonth.value);
+};
+
+// 單獨驗證年份
+const validateYear = () => {
+  isInvalidYear.value =
+    expiryYear.value === "" || !/^\d{2}$/.test(expiryYear.value);
+};
+
+// 單獨驗證CVC
+const validateCVC = () => {
+  isInvalidCVC.value =
+    cardVerificationCode.value === "" ||
+    !/^\d{3}$/.test(cardVerificationCode.value);
+};
+
+// // 單獨驗證姓名
+// const validateName = () => {
+//   isInvalidName.value = name.value === "";
+// };
+
+// 監聽各個欄位的變化來驗證
+watch([cardNumber, expiryMonth, expiryYear, cardVerificationCode, name], () => {
+  if (cardNumber.value !== "") {
+    validateCardNumber(); // 驗證卡號
+  }
+  if (expiryMonth.value !== "") {
+    validateMonth(); // 驗證月份
+  }
+  if (expiryYear.value !== "") {
+    validateYear(); // 驗證年份
+  }
+  if (cardVerificationCode.value !== "") {
+    validateCVC(); // 驗證CVC
+  }
+  // if (name.value !== "") {
+  //   validateName(); // 驗證姓名
+  // }
+});
+
+// 全面驗證表單
+const validateAll = () => {
+  validateCardNumber();
+  validateMonth();
+  validateYear();
+  validateCVC();
+  // validateName();
+};
+
+// 提交表單處理
+const handleSubmit = () => {
+  // 在提交時，強制驗證所有欄位
+  validateAll();
+
+  // 檢查所有欄位是否有效
+  if (
+    !isInvalidCardNumber.value &&
+    !isInvalidMonth.value &&
+    !isInvalidYear.value &&
+    !isInvalidCVC.value
+  ) {
+    alert("Form Submitted Successfully!");
+  } else {
+    alert("Please fill out the form correctly.");
+  }
 };
 </script>
 <style scoped></style>
