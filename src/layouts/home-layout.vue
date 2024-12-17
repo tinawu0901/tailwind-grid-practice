@@ -83,46 +83,71 @@
       </tbody>
     </table>
   </div>
+
+  <div>
+    <div v-if="$keycloak && $keycloak.ready">
+      <div v-if="$keycloak.authenticated">
+        <h2>You should only be able to see this if you are authenticated.</h2>
+        <h3>This is what my token looks like:</h3>
+        <code>{{ $keycloak.tokenParsed }}</code>
+        <h3>This is your access token:</h3>
+        <code>{{ $keycloak.token }}</code>
+        <br />
+        <button @click="$keycloak.logoutFn">Logout</button>
+        <button @click="$keycloak.keycloak.updateToken(300)">
+          Refresh token
+        </button>
+      </div>
+      <div v-else>
+        <h1>Not authenticated</h1>
+        <button @click="$keycloak.login">Login</button>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { getCurrentInstance } from "vue";
+const routers = ref([]);
+const isLoading = ref(true);
+const router = useRouter();
+onMounted(() => {
+  setTimeout(() => {
+    // 模擬資料載入完成
+    routers.value = router
+      .getRoutes()
+      .filter((item) => item.name !== "home")
+      .map((item) => ({
+        name: item.name,
+        path: item.path,
+        meta: item.meta || { difficulty: "未知" },
+      }));
+    isLoading.value = false;
+  }, 1000); // 模擬載入時間
+});
 
-export default {
-  setup() {
-    const routers = ref([]);
-    const isLoading = ref(true);
-    const router = useRouter();
-    onMounted(() => {
-      setTimeout(() => {
-        // 模擬資料載入完成
-        routers.value = router
-          .getRoutes()
-          .filter((item) => item.name !== "home")
-          .map((item) => ({
-            name: item.name,
-            path: item.path,
-            meta: item.meta || { difficulty: "未知" },
-          }));
-        isLoading.value = false;
-      }, 1000); // 模擬載入時間
-    });
-
-    const getDifficultyClass = (difficulty) => {
-      switch (difficulty) {
-        case "newbie":
-          return "bg-green-200 text-green-800";
-        case "junior":
-          return "bg-blue-200 text-blue-800";
-        case "INTERMEDIATE":
-          return "bg-red-200 text-red-800";
-        default:
-          return "bg-gray-200 text-gray-800";
-      }
-    };
-
-    return { routers, isLoading, getDifficultyClass };
-  },
+const getDifficultyClass = (difficulty) => {
+  switch (difficulty) {
+    case "newbie":
+      return "bg-green-200 text-green-800";
+    case "junior":
+      return "bg-blue-200 text-blue-800";
+    case "INTERMEDIATE":
+      return "bg-red-200 text-red-800";
+    default:
+      return "bg-gray-200 text-gray-800";
+  }
+};
+const instance = getCurrentInstance();
+console.log(instance?.proxy?.$keycloak); // 確認能拿到 $keycloak
+const keycloak = instance?.proxy?.$keycloak;
+const handleSubmit = () => {
+  console.log(keycloak);
+  keycloak.login();
+};
+const logout = () => {
+  keycloak.logout();
 };
 </script>
