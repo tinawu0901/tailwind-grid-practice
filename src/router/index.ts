@@ -3,6 +3,7 @@ import HomeLayout from "@/layouts/home-layout.vue";
 import RecipePageMain from "@/views/recipe-page-main.vue";
 import InteractiveRatingComponentMain from "@/views/interactive-rating-component-main.vue";
 import interactiveCardDetailsFormMain from "@/views/interactive-card-details-form-main.vue";
+import timeTrackingDashboardMain from "@/views/time-tracking-dashboard-main.vue";
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -35,6 +36,13 @@ const router = createRouter({
         meta: { difficulty: "junior" ,  completed: false},
       },
 
+      {
+        path: '/time-tracking-dashboard-main',
+        name: "time-tracking-dashboard-main",
+        component: timeTrackingDashboardMain,
+        meta: { difficulty: "junior" ,  completed: false},
+      },
+   
     ]
   })
   
