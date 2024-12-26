@@ -1,31 +1,33 @@
 <template>
-  <div class="bg-black w-full h-lvh" style="border: 1px red solid">
+  <div class="bg-black w-full h-lvh max-md:h-[150lvh] absolute">
     <div
-      class="grid grid-rows-2 gap-5 grid-cols-4 place-content-center h-3/5 w-3/5 absolute inset-0 m-auto max-sm:grid-cols-1"
-      style="border: 1px green solid"
+      class="grid grid-rows-2 gap-5 grid-cols-4 place-content-center h-3/5 w-3/5 absolute inset-0 m-auto max-sm:flex max-sm:flex-col max-sm:relative max-sm:mt-80"
     >
-      <div class="row-span-2 h-full" style="border: 1px brown solid">
-        <div class="bg-indigo-500 w-full h-3/5 rounded text-white">
-          <div style="border: 1px red solid" class="w-full h-1/2 m-auto">
+      <div class="row-span-2">
+        <div
+          class="bg-indigo-500 border border-black w-full h-3/5 rounded text-white max-sm:grid max-sm:grid-cols-2 max-sm:h-4/5"
+        >
+          <div class="w-full h-1/3 mt-2">
             <img
               alt="Vue logo"
               src="@/assets/images/time-tracking-dashboard-main/image-jeremy.png"
-              class="w-20 h-20 border-white border-2 rounded-full ml-4 mt-4"
+              class="w-20 h-20 ml-4 mt-4 max-sm:w-16 max-sm:h-16 max-sm:ml-4 max-sm:mt-0 border-white border-2 rounded-full"
             />
           </div>
-          <div class="text-left ml-3 text-sm" style="border: 1px red solid">
+          <div class="text-left ml-3 text-sm">
             Report for
-            <p class="text-2xl text-wrap">Jeremy<br />Robson</p>
+            <p class="text-2xl text-wrap">
+              <span class="block max-sm:hidden">Jeremy<br />Robson</span>
+              <span class="hidden max-sm:block">Jeremy Robson</span>
+            </p>
           </div>
         </div>
         <div
-          class="w-full text-slate-400 h-2/5 grid grid-cols-1 max-sm:grid-cols-3 ml-5"
-          style="border: 1px red solid"
+          class="w-full text-slate-400 h-2/5 grid grid-cols-1 max-sm:grid-cols-3 ml-5 mt-2 max-sm:ml-0"
         >
           <div
             class="hover:text-white cursor-pointer"
             :class="{ 'text-white': selectedData === data }"
-            style="border: 1px red solid"
             v-for="(data, index) in datas"
             :key="index"
             @click="selectedData = data"
@@ -34,35 +36,8 @@
           </div>
         </div>
       </div>
-      <!-- <div class="" style="border: 1px red solid">
-        <div
-          class="bg-orange-400 w-full h-1/3 rounded-lg flex justify-end items-center"
-        >
-          <img
-            src="@/assets/images/time-tracking-dashboard-main/icon-work.svg"
-            alt="Ellipsis Icon"
-            class="bg-orange-400 object-contain max-w-full max-h-full"
-          />
-        </div>
-        <div
-          class="bg-blue-950 w-full h-4/6 rounded-2xl relative -mt-5 grid grid-rows-3 grid-cols-2 px-4 text-white"
-        >
-          <div class="text-xl mt-2">Work</div>
-          <img
-            src="@/assets/images/time-tracking-dashboard-main/icon-ellipsis.svg"
-            alt="Ellipsis Icon "
-            class="mt-5 ml-5"
-          />
 
-          <div class="text-2xl col-span-2 max-sm:col-span-1 max-sm:text-xl">
-            5hrs
-          </div>
-          <div class="text-sm col-span-2 max-sm:col-span-1 max-sm:text-xs">
-            Last Week - 7hrs
-          </div>
-        </div>
-      </div> -->
-      <div v-for="(data, index) in dataInfos" style="border: 1px red solid">
+      <div v-for="(data, index) in dataInfos" :key="index">
         <div
           class="w-full h-1/3 rounded-lg flex justify-end items-center"
           :class="data.bgColor"
@@ -76,7 +51,7 @@
           />
         </div>
         <div
-          class="bg-blue-950 w-full h-3/4 rounded-2xl relative -mt-4 grid grid-rows-3 grid-cols-2 px-4 text-white"
+          class="bg-blue-950 w-full h-3/4 rounded-2xl relative -mt-4 grid grid-rows-3 grid-cols-2 px-4 text-white hover:bg-blue-900 cursor-pointer"
         >
           <div class="text-sm mt-2">{{ data.title }}</div>
           <img
@@ -220,6 +195,9 @@ const lowercaseAndHyphenate = (string: string) => {
   return string.toLowerCase().replace(/\s+/g, "-");
 };
 const removeLy = (str: string) => {
-  return str.replace("ly", "");
+  if (str.toLowerCase() === "daily") {
+    return "day";
+  }
+  return str.replace(/ly$/, "");
 };
 </script>
