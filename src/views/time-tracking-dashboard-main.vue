@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-black w-full h-dvh" style="border: 1px red solid">
+  <div class="bg-black w-full h-lvh" style="border: 1px red solid">
     <div
       class="grid grid-rows-2 gap-5 grid-cols-4 place-content-center h-3/5 w-3/5 absolute inset-0 m-auto max-sm:grid-cols-1"
-      style="border: 1px red solid"
+      style="border: 1px green solid"
     >
-      <div class="row-span-2" style="border: 1px red solid">
+      <div class="row-span-2 h-full" style="border: 1px brown solid">
         <div class="bg-indigo-500 w-full h-3/5 rounded text-white">
           <div style="border: 1px red solid" class="w-full h-1/2 m-auto">
             <img
@@ -24,54 +24,92 @@
         >
           <div
             class="hover:text-white cursor-pointer"
+            :class="{ 'text-white': selectedData === data }"
             style="border: 1px red solid"
             v-for="(data, index) in datas"
             :key="index"
+            @click="selectedData = data"
           >
             {{ data }}
           </div>
         </div>
       </div>
-      <div class="" style="border: 1px red solid">
+      <!-- <div class="" style="border: 1px red solid">
         <div
           class="bg-orange-400 w-full h-1/3 rounded-lg flex justify-end items-center"
         >
           <img
             src="@/assets/images/time-tracking-dashboard-main/icon-work.svg"
             alt="Ellipsis Icon"
-            class="bg-orange-400"
+            class="bg-orange-400 object-contain max-w-full max-h-full"
           />
         </div>
         <div
-          class="bg-blue-950 w-full h-2/3 rounded-2xl relative -mt-4 grid grid-rows-3 grid-cols-2 px-6 text-white"
+          class="bg-blue-950 w-full h-4/6 rounded-2xl relative -mt-5 grid grid-rows-3 grid-cols-2 px-4 text-white"
         >
-          <div class="text-xl">Work</div>
+          <div class="text-xl mt-2">Work</div>
           <img
             src="@/assets/images/time-tracking-dashboard-main/icon-ellipsis.svg"
             alt="Ellipsis Icon "
             class="mt-5 ml-5"
           />
 
-          <div class="text-4xl col-span-2 max-sm:col-span-1">5hrs</div>
-          <div class="text-sm col-span-2 max-sm:col-span-1">
+          <div class="text-2xl col-span-2 max-sm:col-span-1 max-sm:text-xl">
+            5hrs
+          </div>
+          <div class="text-sm col-span-2 max-sm:col-span-1 max-sm:text-xs">
             Last Week - 7hrs
           </div>
         </div>
+      </div> -->
+      <div v-for="(data, index) in dataInfos" style="border: 1px red solid">
+        <div
+          class="w-full h-1/3 rounded-lg flex justify-end items-center"
+          :class="data.bgColor"
+        >
+          <img
+            :src="`src/assets/images/time-tracking-dashboard-main/icon-${lowercaseAndHyphenate(
+              data.title
+            )}.svg `"
+            class="object-contain max-w-full max-h-full mr-2 mt-1"
+            :class="data.bgColor"
+          />
+        </div>
+        <div
+          class="bg-blue-950 w-full h-3/4 rounded-2xl relative -mt-4 grid grid-rows-3 grid-cols-2 px-4 text-white"
+        >
+          <div class="text-sm mt-2">{{ data.title }}</div>
+          <img
+            src="@/assets/images/time-tracking-dashboard-main/icon-ellipsis.svg"
+            alt="Ellipsis Icon "
+            class="mt-5 ml-5"
+          />
+
+          <div class="text-2xl col-span-2 max-sm:col-span-1 max-sm:text-xl">
+            {{ data.timeframes[currentTimeframe].current }}hrs
+          </div>
+          <div
+            class="text-sm col-span-2 max-sm:col-span-1 max-sm:text-xs text-slate-400"
+          >
+            Last {{ removeLy(currentTimeframe) }} -
+            {{ data.timeframes[currentTimeframe].previous }}hrs
+          </div>
+        </div>
       </div>
-      <div class="" style="border: 1px red solid">03</div>
-      <div class="" style="border: 1px red solid">04</div>
-      <div class="" style="border: 1px red solid">05</div>
-      <div class="" style="border: 1px red solid">06</div>
-      <div class="" style="border: 1px red solid">07</div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import Vue from "vue";
+import { ref, computed } from "vue";
 const datas = ["Daily", "Weekly", "Monthly"];
-const data = [
+const selectedData = ref("Weekly");
+const currentTimeframe = computed(() => {
+  return selectedData.value.toLowerCase();
+});
+const dataInfos = [
   {
     title: "Work",
+    bgColor: "bg-orange-400",
     timeframes: {
       daily: {
         current: 5,
@@ -89,6 +127,7 @@ const data = [
   },
   {
     title: "Play",
+    bgColor: "bg-sky-300",
     timeframes: {
       daily: {
         current: 1,
@@ -106,6 +145,7 @@ const data = [
   },
   {
     title: "Study",
+    bgColor: "bg-pink-500",
     timeframes: {
       daily: {
         current: 0,
@@ -123,6 +163,7 @@ const data = [
   },
   {
     title: "Exercise",
+    bgColor: "bg-emerald-400",
     timeframes: {
       daily: {
         current: 1,
@@ -140,6 +181,7 @@ const data = [
   },
   {
     title: "Social",
+    bgColor: "bg-purple-500",
     timeframes: {
       daily: {
         current: 1,
@@ -157,6 +199,7 @@ const data = [
   },
   {
     title: "Self Care",
+    bgColor: "bg-yellow-300",
     timeframes: {
       daily: {
         current: 0,
@@ -173,4 +216,10 @@ const data = [
     },
   },
 ];
+const lowercaseAndHyphenate = (string: string) => {
+  return string.toLowerCase().replace(/\s+/g, "-");
+};
+const removeLy = (str: string) => {
+  return str.replace("ly", "");
+};
 </script>
