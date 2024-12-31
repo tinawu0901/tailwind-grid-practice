@@ -4,6 +4,7 @@ import RecipePageMain from "@/views/recipe-page-main.vue";
 import InteractiveRatingComponentMain from "@/views/interactive-rating-component-main.vue";
 import interactiveCardDetailsFormMain from "@/views/interactive-card-details-form-main.vue";
 import timeTrackingDashboardMain from "@/views/time-tracking-dashboard-main.vue";
+import productListWithCartMain from "@/views/product-list-with-cart-main.vue";
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -42,7 +43,13 @@ const router = createRouter({
         component: timeTrackingDashboardMain,
         meta: { difficulty: "junior" ,  completed: true},
       },
-   
+      {
+        path: '/product-list-with-cart-main',
+        name: "product-list-with-cart-main",
+        component: productListWithCartMain,
+        meta: { difficulty: "junior" ,  completed: false},
+      },
+      
     ]
   })
   
