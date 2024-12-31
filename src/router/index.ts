@@ -40,7 +40,7 @@ const router = createRouter({
         path: '/time-tracking-dashboard-main',
         name: "time-tracking-dashboard-main",
         component: timeTrackingDashboardMain,
-        meta: { difficulty: "junior" ,  completed: false},
+        meta: { difficulty: "junior" ,  completed: true},
       },
    
     ]
