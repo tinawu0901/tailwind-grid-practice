@@ -9,44 +9,47 @@
           <img
             alt="Vue logo"
             :src="data.image.desktop"
-            class="object-contain w-full h-2/3"
+            class="object-contain w-full hover:border-2 border-orange-700"
           />
           <!-- <div
             class="flex justify-center items-center bg-white rounded-lg m-2 h-12 -mt-6 relative z-10 border-2 w-48 border-red-300"
           > -->
-          <!-- <div
+          <div
             class="flex justify-center items-center bg-white rounded-2xl m-2 h-12 -mt-6 absolute inset-x-0 mx-auto z-10 border-2 w-48 border-red-300"
           >
             <img
               src="@/assets/images/product-list-with-cart-main/icon-add-to-cart.svg"
             />
             Add to Cart
-          </div> -->
+          </div>
           <div
             class="flex justify-between text-white items-center bg-orange-700 rounded-2xl m-2 h-12 -mt-6 absolute inset-x-0 mx-auto z-10 border-2 w-48 border-orange-700"
+            v-if="data.numbers !== 0"
           >
             <Icon
               icon="lsicon:minus-outline"
               width="26"
               height="26"
-              color="white"
-              @click="console.log('minus to cart')"
+              @click="handleMinusToCart(data.name)"
+              class="fill-current text-white hover:text-orange-700 hover:bg-white rounded-full cursor-pointer"
             />
-            5
+            {{ data.numbers }}
 
             <Icon
               icon="icons8:plus"
               width="26"
               height="26"
-              color="white"
-              @click="console.log('add to cart')"
+              @click="handlePlusToCart(data.name)"
+              class="fill-current text-white hover:text-orange-700 hover:bg-white rounded-full cursor-pointer"
             />
           </div>
           <div
             class="flex flex-col justify-start items-start pl-2 space-y-2 mt-6 ml-4"
           >
-            <div class="text-sm font-light text-slate-400">{{ data.name }}</div>
-            <div class="text-xl text-black">{{ data.category }}</div>
+            <div class="text-sm font-light text-slate-400">
+              {{ data.category }}
+            </div>
+            <div class="text-xl text-black">{{ data.name }}</div>
             <div class="text-red font-bold text-xl text-orange-500">
               ${{ data.price.toFixed(2) }}
             </div>
@@ -54,12 +57,76 @@
         </div>
       </div>
     </div>
-    <div class="w-1/5 max-sm:w-full h-full">222</div>
+    <div class="w-2/5 max-sm:w-full min-h-screen max-sm:mt-4 ml-2">
+      <div class="bg-white flex flex-col p-4" v-if="orderNumber === 0">
+        <p class="text-2xl text-orange-400 font-bold">Your Cart(0)</p>
+
+        <img
+          src="@/assets/images/product-list-with-cart-main/illustration-empty-cart.svg"
+        />
+        <p class="text-xs text-amber-800 font-bold text-nowrap">
+          Your added items will appear here
+        </p>
+      </div>
+
+      <div class="bg-white flex flex-col p-4" v-if="orderNumber !== 0">
+        <p class="text-2xl text-orange-400 font-bold">
+          Your Cart({{ orderNumber }})
+        </p>
+
+        <div
+          class="flex justify-between items-center mt-4 border-b-2 border-gray-300"
+          v-for="(data, index) in orderInfo"
+          :key="index"
+        >
+          <div class="mb-2">
+            <div class="font-bold">{{ data.name }}</div>
+            <div class="text-sm text-slate-400 mt-2">
+              <span class="text-orange-500">{{ data.numbers }}x</span>
+              <span class="mx-3">@${{ data.price }}</span>
+              <span class="ml-auto">${{ data.total }}</span>
+            </div>
+          </div>
+          <div>
+            <Icon
+              icon="material-symbols:cancel-outline"
+              width="26"
+              height="26"
+              color="black"
+              @click="handleCancelToCart(data.name)"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center mt-4">
+          <span>Order Total</span>
+          <span class="text-3xl font-bold">${{ orderInfoTotal }}</span>
+        </div>
+        <div
+          class="flex justify-center text-nowrap items-center mt-4 text-xs bg-gray-100 p-5 rounded-lg overflow-hidden"
+        >
+          <img
+            src="@/assets/images/product-list-with-cart-main/icon-carbon-neutral.svg"
+            class="mr-1"
+          /><span
+            >This is a
+            <span class="font-bold">carbon-neutral</span> delivery</span
+          >
+        </div>
+        <button
+          class="rounded-xl m-2 p-2 bg-orange-700 text-white text-xl"
+          @click="handleConfirm"
+        >
+          Confirm Order
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const dataInfo = [
+import { ref, watch } from "vue";
+const dataInfo = ref([
   {
     image: {
       thumbnail:
@@ -74,6 +141,7 @@ const dataInfo = [
     name: "Waffle with Berries",
     category: "Waffle",
     price: 6.5,
+    numbers: 0,
   },
   {
     image: {
@@ -89,6 +157,7 @@ const dataInfo = [
     name: "Vanilla Bean Crème Brûlée",
     category: "Crème Brûlée",
     price: 7.0,
+    numbers: 0,
   },
   {
     image: {
@@ -104,6 +173,7 @@ const dataInfo = [
     name: "Macaron Mix of Five",
     category: "Macaron",
     price: 8.0,
+    numbers: 0,
   },
   {
     image: {
@@ -119,6 +189,7 @@ const dataInfo = [
     name: "Classic Tiramisu",
     category: "Tiramisu",
     price: 5.5,
+    numbers: 0,
   },
   {
     image: {
@@ -134,6 +205,7 @@ const dataInfo = [
     name: "Pistachio Baklava",
     category: "Baklava",
     price: 4.0,
+    numbers: 0,
   },
   {
     image: {
@@ -149,6 +221,7 @@ const dataInfo = [
     name: "Lemon Meringue Pie",
     category: "Pie",
     price: 5.0,
+    numbers: 0,
   },
   {
     image: {
@@ -164,6 +237,7 @@ const dataInfo = [
     name: "Red Velvet Cake",
     category: "Cake",
     price: 4.5,
+    numbers: 0,
   },
   {
     image: {
@@ -179,6 +253,7 @@ const dataInfo = [
     name: "Salted Caramel Brownie",
     category: "Brownie",
     price: 4.5,
+    numbers: 0,
   },
   {
     image: {
@@ -194,11 +269,55 @@ const dataInfo = [
     name: "Vanilla Panna Cotta",
     category: "Panna Cotta",
     price: 6.5,
+    numbers: 0,
   },
-];
-// const handleClick = () => {
-//   console.log("add to cart");
-// };
+]);
+const handleConfirm = () => {
+  console.log("add to cart");
+};
+const handlePlusToCart = (name: string) => {
+  const index = dataInfo.value.findIndex((data) => data.name === name);
+  dataInfo.value[index].numbers++;
+};
+const handleMinusToCart = (name: string) => {
+  const index = dataInfo.value.findIndex((data) => data.name === name);
+  if (dataInfo.value[index].numbers > 0) {
+    dataInfo.value[index].numbers--;
+  }
+};
+const orderInfo = ref([]);
+const orderInfoTotal = ref(0);
+const orderNumber = ref(0);
+const handleCancelToCart = (name: string) => {
+  //remove item from orderInfo
+  const index = orderInfo.value.findIndex((data) => data.name === name);
+  orderInfo.value.splice(index, 1);
+  // find item form dataInfo and reset numbers
+  const dataIndex = dataInfo.value.findIndex((data) => data.name === name);
+  dataInfo.value[dataIndex].numbers = 0;
+};
+watch(
+  dataInfo,
+  (newVal) => {
+    orderInfo.value = [];
+    orderInfoTotal.value = 0;
+    orderNumber.value = 0;
+    newVal.forEach((data) => {
+      if (data.numbers > 0) {
+        let dataInfo = {
+          name: data.name,
+          price: data.price,
+          numbers: data.numbers,
+          total: data.price * data.numbers,
+        };
+        orderInfo.value.push(dataInfo);
+        orderInfoTotal.value += dataInfo.total;
+        orderNumber.value += dataInfo.numbers;
+      }
+    });
+  },
+  { deep: true }
+);
 </script>
 <style scoped>
 /* div {
