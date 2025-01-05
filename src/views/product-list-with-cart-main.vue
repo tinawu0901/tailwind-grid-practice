@@ -15,7 +15,10 @@
             class="flex justify-center items-center bg-white rounded-lg m-2 h-12 -mt-6 relative z-10 border-2 w-48 border-red-300"
           > -->
           <div
-            class="flex justify-center items-center bg-white rounded-2xl m-2 h-12 -mt-6 absolute inset-x-0 mx-auto z-10 border-2 w-48 border-red-300"
+            class="flex justify-center items-center bg-white rounded-2xl m-2 h-12 -mt-6 absolute inset-x-0 mx-auto z-10 border-2 w-48 border-red-300 cursor-pointer"
+            @mouseover="data.hover = true"
+            @mouseleave="data.hover = false"
+            v-if="!data.hover"
           >
             <img
               src="@/assets/images/product-list-with-cart-main/icon-add-to-cart.svg"
@@ -24,7 +27,9 @@
           </div>
           <div
             class="flex justify-between text-white items-center bg-orange-700 rounded-2xl m-2 h-12 -mt-6 absolute inset-x-0 mx-auto z-10 border-2 w-48 border-orange-700"
-            v-if="data.numbers !== 0"
+            @mouseover="data.hover = true"
+            @mouseleave="data.hover = false"
+            v-if="data.hover"
           >
             <Icon
               icon="lsicon:minus-outline"
@@ -121,6 +126,95 @@
         </button>
       </div>
     </div>
+    <!-- <div class="bg-white flex flex-col p-4" v-if="confirmOrder">
+      <img
+        src="@/assets/images/product-list-with-cart-main/icon-order-confirmed.svg"
+        class="w-12 h-12"
+      />
+      <p class="text-2xl font-bold">Order Confirmed</p>
+      <p class="text-xs font-thin">We hope you enjoy your food!</p>
+
+      <div
+        class="flex justify-between items-center mt-4 border-b-2 border-gray-300 bg-amber-50"
+        v-for="(data, index) in orderInfo"
+        :key="index"
+      >
+        <div class="mb-1 flex items-center">
+          <img
+            :src="data.thumbnail"
+            class="w-12 h-12 object-cover rounded-lg"
+          />
+          <div class="ml-2">
+            <div class="font-bold">{{ data.name }}</div>
+            <div class="text-sm text-slate-400 mt-2">
+              <span class="text-orange-500">{{ data.numbers }}x</span>
+              <span class="mx-3">@${{ data.price }}</span>
+            </div>
+          </div>
+        </div>
+        <div>${{ data.total }}</div>
+      </div>
+
+      <div class="flex justify-between items-center mt-4">
+        <span>Order Total</span>
+        <span class="text-3xl font-bold">${{ orderInfoTotal }}</span>
+      </div>
+
+      <button
+        class="rounded-xl m-2 p-2 bg-orange-700 text-white text-sm"
+        @click="handleConfirm"
+      >
+        Start New Order
+      </button>
+    </div> -->
+
+    <div
+      v-if="confirmOrder"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <div class="bg-white flex flex-col p-4 rounded-lg w-96 h-3/5">
+        <img
+          src="@/assets/images/product-list-with-cart-main/icon-order-confirmed.svg"
+          class="w-12 h-12"
+        />
+        <p class="text-2xl font-bold">Order Confirmed</p>
+        <p class="text-xs font-thin">We hope you enjoy your food!</p>
+
+        <div class="bg-amber-50">
+          <div
+            class="flex justify-between items-center mt-4"
+            v-for="(data, index) in orderInfo"
+            :key="index"
+          >
+            <div class="mb-1 flex items-center">
+              <img
+                :src="data.thumbnail"
+                class="w-12 h-12 object-cover rounded-lg"
+              />
+              <div class="ml-2">
+                <div class="font-bold">{{ data.name }}</div>
+                <div class="text-sm text-slate-400 mt-2">
+                  <span class="text-orange-500">{{ data.numbers }}x</span>
+                  <span class="mx-3">@${{ data.price }}</span>
+                </div>
+              </div>
+            </div>
+            <div>${{ data.total }}</div>
+          </div>
+        </div>
+        <div class="flex justify-between items-center mt-4">
+          <span>Order Total</span>
+          <span class="text-3xl font-bold">${{ orderInfoTotal }}</span>
+        </div>
+
+        <button
+          class="rounded-xl m-2 p-2 bg-orange-700 text-white text-sm"
+          @click="handleConfirm"
+        >
+          Start New Order
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -142,6 +236,7 @@ const dataInfo = ref([
     category: "Waffle",
     price: 6.5,
     numbers: 0,
+    hover: false,
   },
   {
     image: {
@@ -158,11 +253,12 @@ const dataInfo = ref([
     category: "Crème Brûlée",
     price: 7.0,
     numbers: 0,
+    hover: false,
   },
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/mage-macaron-thumbnail.jpg",
+        "src/assets/images/product-list-with-cart-main/image-macaron-thumbnail.jpg",
       mobile:
         "src/assets/images/product-list-with-cart-main/image-macaron-mobile.jpg",
       tablet:
@@ -174,6 +270,7 @@ const dataInfo = ref([
     category: "Macaron",
     price: 8.0,
     numbers: 0,
+    hover: false,
   },
   {
     image: {
@@ -190,6 +287,7 @@ const dataInfo = ref([
     category: "Tiramisu",
     price: 5.5,
     numbers: 0,
+    hover: false,
   },
   {
     image: {
@@ -206,6 +304,7 @@ const dataInfo = ref([
     category: "Baklava",
     price: 4.0,
     numbers: 0,
+    hover: false,
   },
   {
     image: {
@@ -222,6 +321,7 @@ const dataInfo = ref([
     category: "Pie",
     price: 5.0,
     numbers: 0,
+    hover: false,
   },
   {
     image: {
@@ -238,6 +338,7 @@ const dataInfo = ref([
     category: "Cake",
     price: 4.5,
     numbers: 0,
+    hover: false,
   },
   {
     image: {
@@ -254,6 +355,7 @@ const dataInfo = ref([
     category: "Brownie",
     price: 4.5,
     numbers: 0,
+    hover: false,
   },
   {
     image: {
@@ -270,10 +372,13 @@ const dataInfo = ref([
     category: "Panna Cotta",
     price: 6.5,
     numbers: 0,
+    hover: false,
   },
 ]);
+const confirmOrder = ref(false);
 const handleConfirm = () => {
   console.log("add to cart");
+  confirmOrder.value = !confirmOrder.value;
 };
 const handlePlusToCart = (name: string) => {
   const index = dataInfo.value.findIndex((data) => data.name === name);
@@ -309,6 +414,7 @@ watch(
           price: data.price,
           numbers: data.numbers,
           total: data.price * data.numbers,
+          thumbnail: data.image.thumbnail,
         };
         orderInfo.value.push(dataInfo);
         orderInfoTotal.value += dataInfo.total;
