@@ -172,15 +172,15 @@
       v-if="confirmOrder"
       class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
     >
-      <div class="bg-white flex flex-col p-4 rounded-lg w-96 h-3/5">
+      <div class="bg-white flex flex-col p-4 rounded-lg w-96 h-4/5">
         <img
           src="@/assets/images/product-list-with-cart-main/icon-order-confirmed.svg"
-          class="w-12 h-12"
+          class="w-8 h-8"
         />
-        <p class="text-2xl font-bold">Order Confirmed</p>
-        <p class="text-xs font-thin">We hope you enjoy your food!</p>
+        <p class="text-2xl font-bold m-2">Order Confirmed</p>
+        <p class="text-xs font-thin m-2">We hope you enjoy your food!</p>
 
-        <div class="bg-amber-50">
+        <div class="bg-amber-50 h-auto max-h-3/4 overflow-y-auto">
           <div
             class="flex justify-between items-center mt-4"
             v-for="(data, index) in orderInfo"
@@ -199,7 +199,7 @@
                 </div>
               </div>
             </div>
-            <div>${{ data.total }}</div>
+            <div class="mr-2">${{ data.total }}</div>
           </div>
         </div>
         <div class="flex justify-between items-center mt-4">
