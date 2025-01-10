@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="w-2/5 max-sm:w-full min-h-screen max-sm:mt-4 ml-2">
+    <div class="w-1/4 max-sm:w-full min-h-screen max-sm:mt-4 ml-2">
       <div class="bg-white flex flex-col p-4" v-if="orderNumber === 0">
         <p class="text-2xl text-orange-400 font-bold">Your Cart(0)</p>
 
@@ -126,47 +126,6 @@
         </button>
       </div>
     </div>
-    <!-- <div class="bg-white flex flex-col p-4" v-if="confirmOrder">
-      <img
-        src="@/assets/images/product-list-with-cart-main/icon-order-confirmed.svg"
-        class="w-12 h-12"
-      />
-      <p class="text-2xl font-bold">Order Confirmed</p>
-      <p class="text-xs font-thin">We hope you enjoy your food!</p>
-
-      <div
-        class="flex justify-between items-center mt-4 border-b-2 border-gray-300 bg-amber-50"
-        v-for="(data, index) in orderInfo"
-        :key="index"
-      >
-        <div class="mb-1 flex items-center">
-          <img
-            :src="data.thumbnail"
-            class="w-12 h-12 object-cover rounded-lg"
-          />
-          <div class="ml-2">
-            <div class="font-bold">{{ data.name }}</div>
-            <div class="text-sm text-slate-400 mt-2">
-              <span class="text-orange-500">{{ data.numbers }}x</span>
-              <span class="mx-3">@${{ data.price }}</span>
-            </div>
-          </div>
-        </div>
-        <div>${{ data.total }}</div>
-      </div>
-
-      <div class="flex justify-between items-center mt-4">
-        <span>Order Total</span>
-        <span class="text-3xl font-bold">${{ orderInfoTotal }}</span>
-      </div>
-
-      <button
-        class="rounded-xl m-2 p-2 bg-orange-700 text-white text-sm"
-        @click="handleConfirm"
-      >
-        Start New Order
-      </button>
-    </div> -->
 
     <div
       v-if="confirmOrder"

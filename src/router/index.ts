@@ -47,7 +47,7 @@ const router = createRouter({
         path: '/product-list-with-cart-main',
         name: "product-list-with-cart-main",
         component: productListWithCartMain,
-        meta: { difficulty: "junior" ,  completed: false},
+        meta: { difficulty: "junior" ,  completed: true},
       },
       
     ]
