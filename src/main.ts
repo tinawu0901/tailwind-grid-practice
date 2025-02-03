@@ -42,25 +42,25 @@ app.component('Icon', Icon); // 註冊全域 Icon 組件
 
 
 
-app
-  .use(VueKeycloakJs, {
-    init: {
-      onLoad: 'check-sso',
-      checkLoginIframe: false,
-      redirectUri:'http://localhost:5173',
-      enableLogging:true,
-      silentCheckSsoFallback: false,
-      // flow: 'standard',  // 使用標準流
-    },
-    config: {
-      url: 'http://localhost:8080/',
-      clientId: 'frotend-test',
-      realm: 'test-oauth'
-    },
-    onReady (keycloak: Keycloak) {
-      console.log('Keycloak ready', keycloak)
-      app.mount('#app')
-    }
-  })
-
+// app
+//   .use(VueKeycloakJs, {
+//     init: {
+//       onLoad: 'check-sso',
+//       checkLoginIframe: false,
+//       redirectUri:'http://localhost:5173',
+//       enableLogging:true,
+//       silentCheckSsoFallback: false,
+//       // flow: 'standard',  // 使用標準流
+//     },
+//     config: {
+//       url: 'http://localhost:8080/',
+//       clientId: 'frotend-test',
+//       realm: 'test-oauth'
+//     },
+//     onReady (keycloak: Keycloak) {
+//       console.log('Keycloak ready', keycloak)
+//       app.mount('#app')
+//     }
+//   })
+app.mount('#app')
 

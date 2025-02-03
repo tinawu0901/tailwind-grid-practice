@@ -34,7 +34,7 @@ const router = createRouter({
         path: '/interactive-card-details-form-main',
         name: "interactive-card-details-form-main",
         component: interactiveCardDetailsFormMain,
-        meta: { difficulty: "junior" ,  completed: false},
+        meta: { difficulty: "junior" ,  completed: true},
       },
 
       {
