@@ -65,15 +65,6 @@ npm run preview   # Preview the production build locally
 
 The router uses `createWebHistory()`. Deployment requires the server to fall back to `index.html` for page routes so that direct links and page refreshes work. Hosting under a GitHub Pages subdirectory also requires configuring the Vite base path and routing strategy. A verified live demo is not currently provided.
 
-## Current limitations
-
-- Some pages include responsive styles, but fixed dimensions and absolute positioning remain. Layouts have not been fully checked across phones, tablets and screen sizes.
-- Cart quantity controls appear on mouse hover. Touch and keyboard support still need improvement.
-- The rating page currently allows submission without selecting a score.
-- The card form checks some formats, but required-name validation, expiry-date checks and card-number checksum validation are incomplete. The completion screen's Continue button has no action yet. Use fictional test data.
-- Dashboard values are fixed examples, not measurements from a time tracking service.
-- There are no automated tests yet. A successful build does not verify all interactions or visual details.
-
 ## Design credits
 
 Challenges and reference designs are from [Frontend Mentor](https://www.frontendmentor.io). Reference designs, images and fonts are retained for comparison during practice; I do not claim the challenge designs as my own. This repository does not currently include a licence file. Check the original licences before reusing or redistributing the assets.
