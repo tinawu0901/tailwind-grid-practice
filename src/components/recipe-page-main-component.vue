@@ -31,16 +31,11 @@
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
-const props = defineProps({
-  title: String,
-  listType: {
-    type: String,
-    default: "disc", // 預設值
-  },
-  items: {
-    type: Array,
-  },
-});
+const props = withDefaults(defineProps<{
+  title: string;
+  listType?: string;
+  items: string[];
+}>(), { listType: 'disc' });
 
 const listClass = computed(() => {
   return props.listType === "numbered" ? "list-decimal" : "list-disc";

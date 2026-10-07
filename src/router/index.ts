@@ -12,16 +12,12 @@ const router = createRouter({
         path: '/',
         name: 'home',
         component: HomeLayout,
-        children: [
-     
-        ]
       },
       {
         path: '/recipe-page-main',
         name: "recipe-page-main",
         component: RecipePageMain,
-        meta: { difficulty: "newbie" ,  completed: true,
-          }  // 完成圖的照片路徑},
+        meta: { difficulty: "newbie", completed: true },
       },
       
       {

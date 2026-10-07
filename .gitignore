@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local AI working files
+AGENTS.md
+.codex/
+codex-notes.md
+ai-notes.md

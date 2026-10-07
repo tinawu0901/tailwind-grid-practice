@@ -2,7 +2,7 @@
   <div class="w-full h-full px-8">
     <div class="w-full h-1/4">
       <img
-        alt="Vue logo"
+        alt="Simple omelette"
         class="w-full"
         src="@/assets/images/recipe-page-main/image-omelette.jpeg"
       />
@@ -22,7 +22,7 @@
       <div v-if="section.title === 'Preparation time'" class="bg-red-50 p-6">
         <RecipePageMainComponent
           :title="section.title"
-          :listType="section.title === 'Instructions' ? 'numbered' : 'disc'"
+          listType="disc"
           :items="section.items"
         />
       </div>
@@ -82,7 +82,7 @@
 <script setup lang="ts">
 import RecipePageMainComponent from "../components/recipe-page-main-component.vue";
 type Section = {
-  title: "Preparation Time" | "Ingredients" | "Instructions";
+  title: "Preparation time" | "Ingredients" | "Instructions";
   items: string[];
 };
 

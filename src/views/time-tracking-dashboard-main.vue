@@ -9,7 +9,7 @@
         >
           <div class="w-full h-1/3 mt-2">
             <img
-              alt="Vue logo"
+              alt="Jeremy Robson"
               src="@/assets/images/time-tracking-dashboard-main/image-jeremy.png"
               class="w-20 h-20 ml-4 mt-4 max-sm:w-16 max-sm:h-16 max-sm:ml-4 max-sm:mt-0 border-white border-2 rounded-full"
             />
@@ -43,9 +43,7 @@
           :class="data.bgColor"
         >
           <img
-            :src="`src/assets/images/time-tracking-dashboard-main/icon-${lowercaseAndHyphenate(
-              data.title
-            )}.svg `"
+            :src="activityIcons[`../assets/images/time-tracking-dashboard-main/icon-${lowercaseAndHyphenate(data.title)}.svg`]"
             class="object-contain max-w-full max-h-full mr-2 mt-1"
             :class="data.bgColor"
           />
@@ -76,6 +74,9 @@
 </template>
 <script setup lang="ts">
 import { ref, computed } from "vue";
+const activityIcons = import.meta.glob<string>('../assets/images/time-tracking-dashboard-main/icon-*.svg', {
+  eager: true, query: '?url', import: 'default',
+});
 const datas = ["Daily", "Weekly", "Monthly"];
 const selectedData = ref("Weekly");
 const currentTimeframe = computed(() => {

@@ -36,7 +36,6 @@
 
     <div class="w-2/3 h-full bg-white flex items-center justify-center">
       <div class="w-2/5 h-1/2" v-show="!isSubmit">
-        <!-- <form class="w-full h-full"> -->
         <label class="block w-full h-1/4">
           <span class="uppercase block text-sm font-bold text-black my-2">
             Cardholder Name
@@ -126,7 +125,6 @@
         >
           Confirm
         </button>
-        <!-- </form> -->
       </div>
       <div class="w-2/5 h-1/2" v-show="isSubmit">
         <div class="w-full h-2/5 flex items-center justify-center">
@@ -179,7 +177,7 @@ const formatCardNumber = () => {
   // 更新卡號值
   cardNumber.value = formatted;
 
-  // isInvalidCardNumber.value = /\D/.test(cardNumber.value.replace(/\s/g, ""));
+
 };
 
 // 單獨驗證卡號
@@ -206,11 +204,6 @@ const validateCVC = () => {
     !/^\d{3}$/.test(cardVerificationCode.value);
 };
 
-// // 單獨驗證姓名
-// const validateName = () => {
-//   isInvalidName.value = name.value === "";
-// };
-
 // 監聽各個欄位的變化來驗證
 watch([cardNumber, expiryMonth, expiryYear, cardVerificationCode, name], () => {
   if (cardNumber.value !== "") {
@@ -225,9 +218,6 @@ watch([cardNumber, expiryMonth, expiryYear, cardVerificationCode, name], () => {
   if (cardVerificationCode.value !== "") {
     validateCVC(); // 驗證CVC
   }
-  // if (name.value !== "") {
-  //   validateName(); // 驗證姓名
-  // }
 });
 
 // 全面驗證表單
@@ -236,11 +226,11 @@ const validateAll = () => {
   validateMonth();
   validateYear();
   validateCVC();
-  // validateName();
+
 };
 
 // 提交表單處理
-const handleSubmit = (event) => {
+const handleSubmit = () => {
   // 在提交時，強制驗證所有欄位
   validateAll();
 
@@ -252,8 +242,6 @@ const handleSubmit = (event) => {
     !isInvalidCVC.value
   ) {
     isSubmit.value = true;
-  } else {
-    event.preventDefault(); // 阻止表單提交刷新
   }
 };
 </script>

@@ -1,19 +1,16 @@
 <template>
   <div class="w-full min-h-screen flex max-sm:flex-col bg-red-50 p-12">
     <div class="w-4/5 max-sm:w-full h-full">
-      <div class="grid grid-col-3 gap-4 max-sm:grid-col-1">
+      <div class="grid grid-cols-3 gap-4 max-sm:grid-cols-1">
         <div class="col-span-3 max-sm:col-span-1 text-2xl font-bold">
           Desserts
         </div>
         <div v-for="(data, index) in dataInfo" :key="index" class="relative">
           <img
-            alt="Vue logo"
+            :alt="data.name"
             :src="data.image.desktop"
             class="object-contain w-full hover:border-2 border-orange-700"
           />
-          <!-- <div
-            class="flex justify-center items-center bg-white rounded-lg m-2 h-12 -mt-6 relative z-10 border-2 w-48 border-red-300"
-          > -->
           <div
             class="flex justify-center items-center bg-white rounded-2xl m-2 h-12 -mt-6 absolute inset-x-0 mx-auto z-10 border-2 w-48 border-red-300 cursor-pointer"
             @mouseover="data.hover = true"
@@ -168,7 +165,7 @@
 
         <button
           class="rounded-xl m-2 p-2 bg-orange-700 text-white text-sm"
-          @click="handleConfirm"
+          @click="startNewOrder"
         >
           Start New Order
         </button>
@@ -179,17 +176,20 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
+const productImages = import.meta.glob<string>('../assets/images/product-list-with-cart-main/*.jpg', {
+  eager: true, query: '?url', import: 'default',
+});
 const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-waffle-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-waffle-thumbnail.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-waffle-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-waffle-mobile.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-waffle-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-waffle-tablet.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-waffle-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-waffle-desktop.jpg"],
     },
     name: "Waffle with Berries",
     category: "Waffle",
@@ -200,13 +200,13 @@ const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-creme-brulee-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-creme-brulee-thumbnail.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-creme-brulee-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-creme-brulee-tablet.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-creme-brulee-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-creme-brulee-mobile.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-creme-brulee-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-creme-brulee-desktop.jpg"],
     },
     name: "Vanilla Bean Crème Brûlée",
     category: "Crème Brûlée",
@@ -217,13 +217,13 @@ const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-macaron-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-macaron-thumbnail.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-macaron-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-macaron-mobile.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-macaron-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-macaron-tablet.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-macaron-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-macaron-desktop.jpg"],
     },
     name: "Macaron Mix of Five",
     category: "Macaron",
@@ -234,13 +234,13 @@ const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-tiramisu-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-tiramisu-thumbnail.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-tiramisu-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-tiramisu-mobile.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-tiramisu-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-tiramisu-tablet.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-tiramisu-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-tiramisu-desktop.jpg"],
     },
     name: "Classic Tiramisu",
     category: "Tiramisu",
@@ -251,13 +251,13 @@ const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-baklava-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-baklava-thumbnail.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-baklava-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-baklava-mobile.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-baklava-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-baklava-tablet.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-baklava-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-baklava-desktop.jpg"],
     },
     name: "Pistachio Baklava",
     category: "Baklava",
@@ -268,13 +268,13 @@ const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-meringue-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-meringue-thumbnail.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-meringue-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-meringue-mobile.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-meringue-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-meringue-tablet.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-meringue-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-meringue-desktop.jpg"],
     },
     name: "Lemon Meringue Pie",
     category: "Pie",
@@ -285,13 +285,13 @@ const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-cake-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-cake-thumbnail.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-cake-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-cake-mobile.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-cake-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-cake-tablet.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-cake-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-cake-desktop.jpg"],
     },
     name: "Red Velvet Cake",
     category: "Cake",
@@ -302,13 +302,13 @@ const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-brownie-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-brownie-thumbnail.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-brownie-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-brownie-mobile.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-brownie-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-brownie-tablet.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-brownie-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-brownie-desktop.jpg"],
     },
     name: "Salted Caramel Brownie",
     category: "Brownie",
@@ -319,13 +319,13 @@ const dataInfo = ref([
   {
     image: {
       thumbnail:
-        "src/assets/images/product-list-with-cart-main/image-panna-cotta-thumbnail.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-panna-cotta-thumbnail.jpg"],
       mobile:
-        "src/assets/images/product-list-with-cart-main/image-panna-cotta-mobile.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-panna-cotta-mobile.jpg"],
       tablet:
-        "src/assets/images/product-list-with-cart-main/image-panna-cotta-tablet.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-panna-cotta-tablet.jpg"],
       desktop:
-        "src/assets/images/product-list-with-cart-main/image-panna-cotta-desktop.jpg",
+        productImages["../assets/images/product-list-with-cart-main/image-panna-cotta-desktop.jpg"],
     },
     name: "Vanilla Panna Cotta",
     category: "Panna Cotta",
@@ -336,8 +336,11 @@ const dataInfo = ref([
 ]);
 const confirmOrder = ref(false);
 const handleConfirm = () => {
-  console.log("add to cart");
   confirmOrder.value = !confirmOrder.value;
+};
+const startNewOrder = () => {
+  dataInfo.value.forEach((data) => { data.numbers = 0; data.hover = false; });
+  confirmOrder.value = false;
 };
 const handlePlusToCart = (name: string) => {
   const index = dataInfo.value.findIndex((data) => data.name === name);
@@ -384,8 +387,3 @@ watch(
   { deep: true }
 );
 </script>
-<style scoped>
-/* div {
-  border: 1px solid rgb(59, 22, 22);
-} */
-</style>
