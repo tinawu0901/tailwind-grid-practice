@@ -1,8 +1,8 @@
 # Tailwind Grid Practice
 
-A collection of five Frontend Mentor challenges built with Vue 3, TypeScript and Tailwind CSS. The home page links to each challenge and displays the reference designs alongside saved implementation screenshots.
+Five Frontend Mentor challenges built with Vue 3, TypeScript and Tailwind CSS. The home page links to each exercise and shows its reference design alongside a saved implementation screenshot.
 
-I use these exercises to practise CSS Grid and Flexbox, Vue reactive state, form validation and routing. The challenges and designs come from Frontend Mentor; this repository contains my frontend implementations.
+The exercises cover CSS Grid and Flexbox, Vue reactive state, form validation and routing. The challenge briefs and designs are from Frontend Mentor.
 
 ![Home page screenshot](src/assets/final-product/portal.jpeg)
 
